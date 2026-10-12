@@ -1,0 +1,41 @@
+<view class="page album-page">
+  <view class="header"><text class="kicker">DEVICE / GALLERY</text><text class="title">设备相册</text><text class="subtitle">把现场的每个细节，留在设备档案里。</text></view>
+  <view class="card query-card">
+    <text class="label">查找设备</text>
+    <view class="code-row">
+      <input class="{{focused ? 'field-focus' : ''}}" value="{{code}}" bindinput="onCodeInput" bindfocus="onCodeFocus" bindblur="onCodeBlur"
+        bindconfirm="loadDevice" confirm-type="search" disabled="{{loading || uploading || choosing}}" maxlength="80" placeholder="输入设备编号" placeholder-class="placeholder" />
+      <button class="small-button" bindtap="scanCode" hover-class="button-active" disabled="{{loading || choosing || uploading}}">扫码</button>
+    </view>
+    <button class="secondary refresh-button" bindtap="loadDevice" hover-class="button-active" loading="{{loading}}" disabled="{{loading || choosing || uploading}}">{{loading ? '正在读取相册…' : device ? '刷新设备相册' : '查找设备'}}</button>
+  </view>
+  <view wx:if="{{success}}" class="success">{{success}}</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view wx:if="{{device}}" class="card album-card">
+    <view class="album-heading"><view class="album-device"><text class="device-name">{{deviceName}}</text><text class="device-code">{{device.deviceCode}}</text></view><text class="photo-count">{{images.length}} 张</text></view>
+    <view wx:if="{{images.length}}" class="gallery">
+      <view wx:for="{{images}}" wx:key="id" class="photo-tile" data-url="{{item.url}}" bindtap="previewImage">
+        <image class="photo" src="{{item.src}}" mode="aspectFill" data-index="{{index}}" bindload="onImageLoad" binderror="onImageError" />
+        <view wx:if="{{item.loading || item.failed}}" class="photo-state"><text class="photo-state-icon">▧</text><text>{{item.failed ? '点击查看原图' : '加载照片…'}}</text></view>
+        <text class="photo-number">{{index + 1}}</text>
+      </view>
+    </view>
+    <view wx:else class="album-empty"><text class="empty-symbol">▧</text><text class="empty-title">给设备留下第一张照片</text><text class="hint">设备外观、铭牌或现场环境，都可以记录在这里。</text></view>
+    <text wx:if="{{images.length}}" class="hint">点击照片查看原图</text>
+    <block wx:if="{{canUpload}}">
+      <view wx:if="{{pendingPath}}" class="pending">
+        <view class="section-heading"><text class="section-title">待上传照片</text><button class="replace-button" bindtap="clearPending" disabled="{{uploading || choosing}}" hover-class="button-active">取消</button></view>
+        <view class="pending-preview" bindtap="previewPending">
+          <image class="pending-photo" src="{{pendingPath}}" mode="aspectFit" binderror="onPendingError" />
+          <view wx:if="{{pendingFailed}}" class="photo-state"><text>照片无法读取，请重新选择</text></view>
+        </view>
+        <button class="primary upload-button" bindtap="uploadImage" hover-class="button-active" loading="{{uploading}}" disabled="{{uploading || choosing || pendingFailed}}">{{uploading ? '正在上传…' : '确认上传照片'}}</button>
+      </view>
+      <button wx:else class="secondary choose-button" bindtap="chooseImage" hover-class="button-active" disabled="{{choosing || uploading || loading || images.length >= 10}}">＋ {{images.length >= 10 ? '已达到 10 张照片上限' : '拍照 / 从相册选择'}}</button>
+      <text class="hint">JPG、PNG、WEBP，每张不超过 5 MB，每台最多 10 张。</text>
+      <button class="text-button" bindtap="editDevice" disabled="{{uploading || choosing || loading}}" hover-class="button-active">编辑设备 / 移除已有照片 ›</button>
+    </block>
+    <text wx:else class="hint">管理员和编辑者登录后可以补充设备照片。</text>
+  </view>
+  <view wx:elif="{{!loading && !error}}" class="album-intro"><view class="intro-icon">▧</view><text class="intro-title">每台设备，一个相册</text><text class="hint">输入设备编号或扫描设备码，查看已保存的照片。</text></view>
+</view>

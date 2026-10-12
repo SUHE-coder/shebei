@@ -1,0 +1,1 @@
+{ "desc": "设备扫码管理小程序", "rules": [{ "action": "allow", "page": "*" }] }

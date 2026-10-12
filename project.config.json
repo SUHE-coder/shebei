@@ -1,0 +1,28 @@
+{
+  "description": "设备扫码管理小程序",
+  "miniprogramRoot": "",
+  "compileType": "miniprogram",
+  "libVersion": "3.17.4",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "condition": {},
+  "appid": "wx73ccfa4695855c95",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
+}

@@ -1,0 +1,46 @@
+<view class="page profile-page">
+  <view wx:if="{{loading}}" class="card state-card">
+    <view class="state-symbol">…</view><text class="state-title">正在读取设备档案</text><text class="subtitle">设备信息马上就绪</text>
+  </view>
+  <view wx:elif="{{error}}" class="card state-card">
+    <view class="state-symbol">!</view><text class="state-title">暂时无法读取档案</text><text class="subtitle">{{error}}</text>
+    <button class="primary" bindtap="retry" hover-class="button-active">重新查询</button>
+    <button class="text-button" bindtap="goHome" hover-class="button-active">返回首页</button>
+  </view>
+  <block wx:elif="{{device}}">
+    <view class="profile-heading">
+      <view class="profile-top"><text class="kicker">DEVICE / PROFILE</text><text class="status status-{{device.status}}">{{device.statusText || device.status}}</text></view>
+      <text class="profile-name">{{device.name}}</text>
+      <view class="profile-code"><text class="code-label">设备编号</text><text>{{device.deviceCode}}</text></view>
+    </view>
+    <view class="card">
+      <view class="section-heading"><text class="section-title">设备资料</text><text class="section-meta">基本信息</text></view>
+      <view class="info-row"><text class="info-key">设备型号</text><text class="info-value">{{device.model || '暂未填写'}}</text></view>
+      <view class="info-row"><text class="info-key">运行状态</text><text class="info-value">{{device.statusText || device.status}}</text></view>
+      <view class="info-row note-row"><text class="info-key">设备备注</text><text class="info-value note-value">{{device.note || '暂无备注'}}</text></view>
+    </view>
+    <view class="card">
+      <view class="section-heading"><text class="section-title">设备位置</text><text class="section-meta">{{coordinates ? '已定位' : '位置记录'}}</text></view>
+      <text class="location-address">{{device.location || (coordinates ? '已记录设备坐标' : '暂未设置位置')}}</text>
+      <block wx:if="{{coordinates}}">
+        <map class="profile-map" latitude="{{coordinates.latitude}}" longitude="{{coordinates.longitude}}" markers="{{markers}}" scale="16" />
+        <view class="map-footer"><text class="map-coordinates">◎ {{coordinateLabel}}</text>
+          <button class="map-link" bindtap="openLocation" hover-class="button-active">在地图中打开 ›</button></view>
+      </block>
+    </view>
+    <view class="card">
+      <view class="section-heading"><text class="section-title">设备相册</text><text class="section-meta">{{device.images.length}} 张照片</text></view>
+      <view wx:if="{{device.images.length}}" class="gallery">
+        <view wx:for="{{device.images}}" wx:key="id" class="photo-tile" data-url="{{item.url}}" bindtap="previewImage">
+          <image class="photo" src="{{item.src}}" mode="aspectFill" data-index="{{index}}" bindload="onImageLoad" binderror="onImageError" />
+          <view wx:if="{{item.loading || item.failed}}" class="photo-state"><text class="photo-state-icon">▧</text><text>{{item.failed ? '点击查看原图' : '加载照片…'}}</text></view>
+          <text class="photo-number">{{index + 1}}</text>
+        </view>
+      </view>
+      <view wx:else class="album-empty"><text class="album-empty-icon">▧</text><text>还没有设备照片</text><text class="hint">记录设备外观，让现场信息更完整。</text></view>
+      <button class="secondary album-button" bindtap="openImages" hover-class="button-active">查看 / 补充照片</button>
+    </view>
+    <button wx:if="{{canEdit}}" class="primary edit-device-button" bindtap="editDevice" hover-class="button-active">编辑设备资料</button>
+    <button class="text-button" bindtap="goHome" hover-class="button-active">返回首页</button>
+  </block>
+</view>

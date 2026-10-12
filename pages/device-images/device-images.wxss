@@ -1,0 +1,21 @@
+.refresh-button { margin-top: 20rpx; }
+.album-heading { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18rpx; }
+.album-device { flex: 1; min-width: 0; margin-right: 16rpx; }
+.device-name { display: block; font-size: 32rpx; font-weight: 600; line-height: 1.5; word-break: break-all; }
+.device-code { display: block; margin-top: 10rpx; color: #78867d; font-size: 24rpx; word-break: break-all; }
+.photo-count { flex-shrink: 0; padding: 6rpx 16rpx; border-radius: 20rpx; background: #edf4ec; color: #176b53; font-size: 23rpx; }
+.album-empty { display: flex; flex-direction: column; align-items: center; padding: 42rpx 10rpx 30rpx; text-align: center; }
+.empty-symbol { display: flex; align-items: center; justify-content: center; width: 100rpx; height: 100rpx; margin-bottom: 24rpx; border-radius: 30rpx; color: #86a476; background: #f2f6ec; font-size: 56rpx; }
+.empty-title { color: #42564a; font-size: 28rpx; }
+.album-empty .hint { max-width: 460rpx; }
+.choose-button { margin-top: 28rpx; }
+.pending { margin-top: 30rpx; padding-top: 24rpx; border-top: 1rpx solid #edf0e9; }
+.pending .section-heading { margin-bottom: 16rpx; }
+.pending .section-title { font-size: 27rpx; }
+.replace-button { padding: 0 6rpx; min-height: 58rpx; color: #78867d; background: transparent; font-size: 24rpx; font-weight: 400; }
+.pending-preview { position: relative; border-radius: 20rpx; overflow: hidden; }
+.pending-photo { display: block; width: 100%; height: 360rpx; background: #f2f5ed; }
+.upload-button { margin-top: 20rpx; }
+.album-intro { padding: 64rpx 24rpx; text-align: center; }
+.intro-icon { color: #b0c3a4; font-size: 80rpx; }
+.intro-title { display: block; margin-top: 24rpx; color: #78867d; font-size: 30rpx; }

@@ -1,0 +1,56 @@
+<view class="page list-page">
+  <view class="header list-header">
+    <view><text class="kicker">DEVICE / DIRECTORY</text><text class="title">设备档案</text></view>
+    <button wx:if="{{canEdit}}" class="small-button" bindtap="addDevice" hover-class="button-active">＋ 建档</button>
+  </view>
+  <view class="card search-card">
+    <text class="label">找到需要的设备</text>
+    <view class="code-row">
+      <input class="{{focused ? 'field-focus' : ''}}" value="{{keyword}}" bindinput="onKeywordInput"
+        bindfocus="onFocus" bindblur="onBlur" bindconfirm="search" confirm-type="search" maxlength="120"
+        placeholder="搜索设备码或设备名称" placeholder-class="placeholder" />
+      <button class="small-button" bindtap="search" hover-class="button-active">搜索</button>
+    </view>
+    <view class="filter-row">
+      <picker mode="selector" range="{{statusOptions}}" value="{{statusIndex}}" bindchange="onStatusChange">
+        <view class="filter-picker">{{statusOptions[statusIndex]}} <text>⌄</text></view>
+      </picker>
+      <button wx:if="{{activeKeyword || statusIndex}}" class="text-button reset-button" bindtap="clearSearch" hover-class="button-active">清除筛选</button>
+      <text wx:else class="filter-hint">下拉刷新设备资料</text>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" class="card state-card">
+    <view class="state-symbol">…</view><text class="state-title">正在读取设备列表</text>
+  </view>
+  <block wx:else>
+    <view wx:if="{{loaded}}" class="section-heading result-heading">
+      <text class="section-title">{{activeKeyword || statusIndex ? '查询结果' : '全部设备'}}</text><text class="section-meta">共 {{total}} 台</text>
+    </view>
+    <view wx:for="{{devices}}" wx:key="id" class="card device-card">
+      <view class="device-row" bindtap="openDevice" data-code="{{item.deviceCode}}" hover-class="row-active">
+        <view class="device-cover">
+          <image wx:if="{{item.src && !item.failed}}" class="photo" src="{{item.src}}" mode="aspectFill"
+            data-index="{{index}}" bindload="onImageLoad" binderror="onImageError" />
+          <text wx:else class="device-cover-symbol">▣</text>
+        </view>
+        <view class="device-main"><text class="device-name">{{item.name}}</text><text class="device-code">{{item.deviceCode}}</text></view>
+        <text class="chevron">›</text>
+      </view>
+      <view class="device-location"><text class="location-symbol">◎</text><text>{{item.location || '暂未填写位置'}}</text></view>
+      <view class="device-bottom">
+        <text class="status status-{{item.status}}">{{item.statusText}}</text>
+        <button wx:if="{{canEdit}}" class="edit-button" data-code="{{item.deviceCode}}" bindtap="editDevice" hover-class="button-active">编辑资料 ↗</button>
+        <button wx:else class="edit-button" data-code="{{item.deviceCode}}" bindtap="openDevice" hover-class="button-active">查看档案 ›</button>
+      </view>
+    </view>
+    <view wx:if="{{loaded && !devices.length && !error}}" class="card state-card">
+      <view class="state-symbol">▣</view><text class="state-title">{{activeKeyword || statusIndex ? '没有符合条件的设备' : '设备档案从这里开始'}}</text>
+      <text class="subtitle">{{activeKeyword || statusIndex ? '试试其他设备码、名称或运行状态。' : '添加第一台设备，记录资料、位置与照片。'}}</text>
+      <button wx:if="{{activeKeyword || statusIndex}}" class="secondary" bindtap="clearSearch" hover-class="button-active">查看全部设备</button>
+      <button wx:elif="{{canEdit}}" class="primary" bindtap="addDevice" hover-class="button-active">添加第一台设备</button>
+    </view>
+    <view wx:if="{{error}}" class="error"><text>{{error}}</text><button class="text-button" bindtap="retry" hover-class="button-active">重新加载</button></view>
+    <button wx:if="{{hasMore}}" class="secondary" bindtap="loadMore" loading="{{loadingMore}}" disabled="{{loadingMore}}" hover-class="button-active">{{loadingMore ? '正在加载…' : '加载更多设备'}}</button>
+    <text wx:elif="{{devices.length}}" class="list-footer">已显示全部 {{devices.length}} 台设备</text>
+  </block>
+</view>

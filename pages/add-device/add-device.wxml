@@ -1,0 +1,129 @@
+<view class="page add-page">
+  <view class="header">
+    <text class="kicker">{{editing ? 'DEVICE / EDIT' : 'DEVICE / NEW'}}</text>
+    <text class="title">{{editing ? '更新设备档案' : '添加一台新设备'}}</text>
+    <text class="subtitle">{{editing ? '更新资料、位置与照片，让现场信息保持准确。' : '完善资料、记录位置，让每台设备都有自己的档案。'}}</text>
+  </view>
+  <view wx:if="{{loading}}" class="card state-card">
+    <view class="state-symbol">…</view><text class="state-title">正在检查账号权限</text>
+  </view>
+  <view wx:elif="{{completed}}" class="card complete-card">
+    <view class="complete-icon">✓</view>
+    <text class="complete-title">{{editing ? '设备档案已更新' : '设备已建档'}}</text>
+    <text class="subtitle">{{fields.name}}</text>
+    <text class="complete-code">{{savedCode}}</text>
+    <view class="complete-summary">
+      <text>资料已保存</text><text>{{coordinates ? '位置已记录' : '位置未设置'}}</text><text>{{photoCount}} 张照片</text>
+    </view>
+    <button class="primary" bindtap="goDevice" hover-class="button-active">查看设备档案</button>
+    <button class="text-button" bindtap="goBack" hover-class="button-active">返回设备管理</button>
+  </view>
+  <block wx:elif="{{allowed || savedCode}}">
+    <view wx:if="{{savedCode}}" class="success">设备 {{savedCode}} 的资料已保存。{{uncertainUpload ? '请查看照片确认上传结果。' : '照片尚未处理完成，可以继续保存。'}}</view>
+    <view class="card">
+      <view class="section-heading">
+        <view class="section-heading-main"><text class="section-number">01</text><text class="section-title">设备资料</text></view>
+        <text class="section-meta">* 为必填项</text>
+      </view>
+      <view class="form-row">
+        <text class="label">设备编号<text class="required">*</text></text>
+        <view class="code-row">
+          <input class="{{focusedField === 'deviceCode' ? 'field-focus' : ''}}" value="{{fields.deviceCode}}"
+            data-field="deviceCode" bindinput="onFieldInput" bindfocus="onFieldFocus" bindblur="onFieldBlur"
+            disabled="{{submitting || savedCode || editing}}" maxlength="80" placeholder="输入或扫描设备码" placeholder-class="placeholder" />
+          <button wx:if="{{!editing}}" class="small-button" bindtap="scanDeviceCode" hover-class="button-active" disabled="{{scanning || submitting || choosing || locating || savedCode}}">扫码</button>
+        </view>
+        <text class="hint">{{editing ? '设备码保持固定，原有标签可以继续扫码查询。' : '与设备标签一致，保存后可直接扫码查询。'}}</text>
+      </view>
+      <view class="form-row">
+        <text class="label">设备名称<text class="required">*</text></text>
+        <input class="{{focusedField === 'name' ? 'field-focus' : ''}}" value="{{fields.name}}" data-field="name"
+          bindinput="onFieldInput" bindfocus="onFieldFocus" bindblur="onFieldBlur" maxlength="120"
+          disabled="{{submitting || savedCode}}" placeholder="例如：一号楼环境监测仪" placeholder-class="placeholder" />
+      </view>
+      <view class="form-row">
+        <text class="label">设备型号</text>
+        <input class="{{focusedField === 'model' ? 'field-focus' : ''}}" value="{{fields.model}}" data-field="model"
+          bindinput="onFieldInput" bindfocus="onFieldFocus" bindblur="onFieldBlur" maxlength="120"
+          disabled="{{submitting || savedCode}}" placeholder="选填，例如：ENV-200" placeholder-class="placeholder" />
+      </view>
+      <view class="form-row">
+        <text class="label">运行状态</text>
+        <view class="status-options">
+          <button wx:for="{{statusOptions}}" wx:key="*this" class="status-option status-option-{{index}} {{statusIndex === index ? 'status-selected' : ''}}"
+            bindtap="onStatusChange" data-index="{{index}}" disabled="{{submitting || savedCode}}" hover-class="button-active">
+            <text class="status-dot"></text>{{item}}
+          </button>
+        </view>
+      </view>
+      <view class="form-row">
+        <text class="label">设备备注</text>
+        <textarea class="{{focusedField === 'note' ? 'field-focus' : ''}}" value="{{fields.note}}" data-field="note"
+          bindinput="onFieldInput" bindfocus="onFieldFocus" bindblur="onFieldBlur" maxlength="10000"
+          disabled="{{submitting || savedCode}}" placeholder="巡检周期、使用说明或其他需要记录的信息…" placeholder-class="placeholder" />
+      </view>
+    </view>
+    <view class="card">
+      <view class="section-heading">
+        <view class="section-heading-main"><text class="section-number">02</text><text class="section-title">设备位置</text></view>
+        <text class="section-meta">选填</text>
+      </view>
+      <view class="location-actions">
+        <button class="secondary" bindtap="locateDevice" data-mode="current" loading="{{locating}}"
+          disabled="{{locating || scanning || submitting || choosing || savedCode}}" hover-class="button-active">◎ 获取手机定位</button>
+        <button class="map-button" bindtap="locateDevice" data-mode="map"
+          disabled="{{locating || scanning || submitting || choosing || savedCode}}" hover-class="button-active">地图选点 ›</button>
+      </view>
+      <view wx:if="{{coordinates}}" class="map-preview">
+        <map class="location-map" latitude="{{coordinates.latitude}}" longitude="{{coordinates.longitude}}" markers="{{markers}}" scale="16" show-location="{{true}}" />
+        <view class="coordinate-row"><text class="coordinate-text">◎ {{coordinateLabel}}</text>
+          <button class="clear-location" bindtap="clearLocation" disabled="{{submitting || locating || savedCode}}" hover-class="button-active">清除</button>
+        </view>
+      </view>
+      <view wx:if="{{locationError}}" class="location-error">
+        <text>{{locationError}}</text><button wx:if="{{needsLocationSettings}}" class="small-button" bindtap="openLocationSettings" disabled="{{locating || submitting || savedCode}}">打开设置</button>
+      </view>
+      <view class="form-row location-field">
+        <text class="label">位置说明</text>
+        <input class="{{focusedField === 'location' ? 'field-focus' : ''}}" value="{{fields.location}}" data-field="location"
+          bindinput="onFieldInput" bindfocus="onFieldFocus" bindblur="onFieldBlur" maxlength="200"
+          disabled="{{submitting || savedCode}}" placeholder="例如：一号楼 / 2F / 设备间" placeholder-class="placeholder" />
+        <text class="hint">手机定位记录当前坐标；地图选点可填入地址，再补充楼层、房间。</text>
+      </view>
+    </view>
+    <view class="card">
+      <view class="section-heading">
+        <view class="section-heading-main"><text class="section-number">03</text><text class="section-title">设备照片</text></view>
+        <text class="section-meta">{{photoCount}} / 10</text>
+      </view>
+      <view class="gallery draft-gallery">
+        <view wx:for="{{photos}}" wx:key="id" class="photo-tile draft-tile">
+          <image class="photo" src="{{item.src || item.path}}" mode="aspectFill" data-path="{{item.path}}" data-index="{{index}}" bindtap="previewPhoto" bindload="onPhotoLoad" binderror="onPhotoError" />
+          <view wx:if="{{item.loading || item.failed}}" class="photo-state" data-path="{{item.path}}" bindtap="previewPhoto"><text>{{item.failed ? (item.state === 'existing' ? '点击查看原图' : '照片无法读取') : '加载照片…'}}</text></view>
+          <button wx:if="{{!savedCode}}" class="remove-photo" data-id="{{item.id}}" catchtap="removePhoto" disabled="{{submitting || choosing}}" hover-class="button-active">×</button>
+          <text class="photo-number">{{item.state === 'existing' ? '已保存' : item.state === 'uploaded' ? '已上传' : item.state === 'uploading' ? '上传中' : item.state === 'failed' ? '上传失败' : item.state === 'uncertain' ? '待确认' : '待保存'}}</text>
+        </view>
+        <button wx:if="{{photoCount < 10 && !savedCode}}" class="photo-tile add-photo" bindtap="choosePhotos"
+          disabled="{{choosing || scanning || locating || submitting}}" hover-class="button-active">
+          <text class="add-photo-icon">＋</text><text>{{choosing ? '选择中…' : '添加照片'}}</text>
+        </button>
+      </view>
+      <text class="hint">拍照或从相册选择，点击照片可预览。支持 JPG、PNG、WEBP，每张不超过 5 MB，保存时处理照片。</text>
+      <text wx:if="{{deletedImageIds.length}}" class="hint">{{deletedImageIds.length}} 张照片将在保存时删除。</text>
+    </view>
+    <view wx:if="{{error}}" class="error">{{error}}</view>
+    <view class="submit-panel">
+      <button wx:if="{{!uncertainUpload && allowed}}" class="primary" bindtap="submitDevice" loading="{{submitting}}"
+        disabled="{{submitting || scanning || choosing || locating}}" hover-class="button-active">
+        {{submitting ? uploadLabel : savedCode ? '继续保存剩余照片' : editing ? '保存修改' : '保存设备档案'}}
+      </button>
+      <button wx:if="{{savedCode}}" class="secondary" bindtap="goDeviceImages" disabled="{{submitting}}" hover-class="button-active">查看已保存照片</button>
+      <button class="text-button" bindtap="goBack" disabled="{{submitting || scanning || choosing || locating}}" hover-class="button-active">返回设备管理</button>
+    </view>
+  </block>
+  <view wx:else class="card state-card">
+    <view class="state-symbol">↗</view><text class="state-title">{{editing ? '设备维护需要授权' : '登录后开始建档'}}</text>
+    <text class="subtitle">{{error || '管理员和编辑者可以添加设备。'}}</text>
+    <button class="primary" bindtap="goManage" hover-class="button-active">前往账号管理</button>
+  </view>
+</view>

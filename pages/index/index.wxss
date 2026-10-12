@@ -1,0 +1,46 @@
+.home-page { padding-top: 18rpx; }
+.home-top { display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; font-size: 30rpx; font-weight: 700; }
+.brand-symbol { position: relative; width: 48rpx; height: 48rpx; margin-right: 16rpx; border-radius: 15rpx; background: #176b53; }
+.brand-square { position: absolute; width: 17rpx; height: 17rpx; top: 10rpx; left: 10rpx; border: 2rpx solid #f0f6e9; border-radius: 4rpx; }
+.brand-square-small { width: 12rpx; height: 12rpx; left: 24rpx; top: 24rpx; background: #b4d59c; border: 0; }
+.account-link { min-height: 72rpx; padding: 0 4rpx 0 20rpx; font-size: 24rpx; color: #78867d; background: transparent; font-weight: 400; }
+.account-dot { margin-left: 12rpx; width: 12rpx; height: 12rpx; background: #84aa75; border-radius: 50%; }
+.home-heading { padding: 48rpx 0 36rpx; }
+.home-heading .kicker { font-size: 23rpx; letter-spacing: 4rpx; }
+.home-title { margin-top: 18rpx; font-size: 56rpx; line-height: 1.35; font-weight: 700; letter-spacing: -1rpx; }
+.home-title view { color: #176b53; }
+.scan-card { padding: 30rpx; border-radius: 30rpx; background: #193e32; color: #fff; overflow: hidden; }
+.scan-top { display: flex; align-items: center; justify-content: space-between; }
+.scan-tag { padding: 6rpx 16rpx; border: 1rpx solid #527360; border-radius: 20rpx; color: #d4e6c6; font-size: 22rpx; }
+.scan-card-label { color: #97b3a2; font-size: 18rpx; letter-spacing: 2rpx; }
+.scan-body { display: flex; align-items: center; justify-content: space-between; padding: 34rpx 8rpx; }
+.scan-title { display: block; font-size: 38rpx; font-weight: 600; }
+.scan-hint { display: block; margin-top: 12rpx; color: #a6c1b0; font-size: 24rpx; line-height: 1.8; }
+.scan-frame { position: relative; width: 142rpx; height: 142rpx; flex-shrink: 0; margin-left: 16rpx; border: 2rpx solid #6e977f; border-radius: 22rpx; }
+.qr-pixel { position: absolute; width: 28rpx; height: 28rpx; border: 6rpx solid #bdd8a8; border-radius: 4rpx; }
+.qr-one { top: 22rpx; left: 22rpx; }
+.qr-two { top: 22rpx; right: 22rpx; }
+.qr-three { bottom: 22rpx; left: 22rpx; }
+.qr-small { position: absolute; right: 22rpx; bottom: 22rpx; width: 18rpx; height: 18rpx; background: #bdd8a8; box-shadow: -12rpx -12rpx 0 #6e977f; }
+.scan-line { position: absolute; left: -10rpx; right: -10rpx; top: 70rpx; height: 2rpx; background: #b4d59c; box-shadow: 0 0 16rpx #b4d59c; }
+.scan-button { color: #20382f; background: #d9ecc4; font-weight: 700; }
+.scan-button-arrow { margin-left: 26rpx; font-size: 32rpx; }
+.query-section { margin-top: 34rpx; }
+.query-section .section-heading { margin-bottom: 16rpx; }
+.query-section .section-title { color: #78867d; font-size: 25rpx; font-weight: 400; }
+.query-row { display: flex; align-items: center; border-radius: 18rpx; background: #fff; border: 2rpx solid #e8ece5; padding: 6rpx; }
+.query-row input { min-width: 0; flex: 1; border: 0; background: #fff; height: 76rpx; }
+.query-button { flex-shrink: 0; min-height: 72rpx; padding: 0 32rpx; background: #edf4ec; color: #176b53; font-size: 25rpx; border-radius: 13rpx; }
+.home-error { margin-top: 16rpx; margin-bottom: 0; }
+.entry-heading { margin-top: 42rpx; margin-bottom: 20rpx; }
+.entry-grid { display: flex; margin: 0 -9rpx; }
+.entry-card { display: block; position: relative; flex: 1; min-width: 0; margin: 0 9rpx; padding: 28rpx 24rpx; border: 1rpx solid #e8ece5; border-radius: 24rpx; background: #fff; color: #20382f; text-align: left; }
+.entry-icon { display: flex; align-items: center; justify-content: center; width: 64rpx; height: 64rpx; border-radius: 18rpx; color: #176b53; background: #edf4ec; font-size: 42rpx; font-weight: 400; }
+.image-entry-icon { color: #946f40; background: #faf2e5; }
+.entry-title { display: block; margin-top: 20rpx; font-size: 29rpx; font-weight: 600; }
+.entry-description { display: block; margin-top: 8rpx; color: #78867d; font-size: 22rpx; font-weight: 400; }
+.entry-arrow { position: absolute; top: 28rpx; right: 24rpx; color: #9ba69c; font-size: 28rpx; }
+.home-footer { display: flex; align-items: center; justify-content: center; margin-top: 44rpx; color: #9ba69c; font-size: 21rpx; }
+.footer-line { width: 50rpx; height: 1rpx; margin: 0 16rpx; background: #dce4d7; }
+.directory-button { margin-top: 24rpx; }

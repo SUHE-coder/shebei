@@ -1,0 +1,23 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/device-list/device-list",
+    "pages/device-images/device-images",
+    "pages/add-device/add-device",
+    "pages/device/device",
+    "pages/manage/manage"
+  ],
+  "window": {
+    "navigationBarTitleText": "设备管家",
+    "navigationBarBackgroundColor": "#f7f8f3",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f7f8f3",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "permission": {
+    "scope.userLocation": { "desc": "用于在添加设备时获取当前位置，记录设备所在位置" }
+  },
+  "requiredPrivateInfos": ["getLocation", "chooseLocation"],
+  "sitemapLocation": "sitemap.json"
+}

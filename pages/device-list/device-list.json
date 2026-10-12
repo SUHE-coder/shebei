@@ -1,0 +1,5 @@
+{
+  "navigationBarTitleText": "设备档案",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 120
+}

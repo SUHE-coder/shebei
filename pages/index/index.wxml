@@ -1,0 +1,39 @@
+<view class="page home-page">
+  <view class="home-top">
+    <view class="brand"><view class="brand-symbol"><view class="brand-square"></view><view class="brand-square brand-square-small"></view></view><text>设备管家</text></view>
+    <button class="account-link" bindtap="openManage" hover-class="button-active">我的账号 <text class="account-dot"></text></button>
+  </view>
+  <view class="home-heading">
+    <text class="kicker">让管理更有序</text>
+    <view class="home-title">每一台设备，<view>都有迹可循。</view></view>
+    <text class="subtitle">从一次扫码开始，掌握设备的每一份信息。</text>
+  </view>
+  <view class="scan-card">
+    <view class="scan-top"><text class="scan-tag">快捷查询</text><text class="scan-card-label">SCAN &amp; DISCOVER</text></view>
+    <view class="scan-body">
+      <view><text class="scan-title">扫描设备码</text><view class="scan-hint">对准设备二维码或条形码<view>即刻查看设备档案</view></view></view>
+      <view class="scan-frame"><view class="qr-pixel qr-one"></view><view class="qr-pixel qr-two"></view><view class="qr-pixel qr-three"></view><view class="qr-small"></view><view class="scan-line"></view></view>
+    </view>
+    <button class="scan-button" loading="{{scanning}}" disabled="{{scanning}}" bindtap="scanDevice" hover-class="button-active">{{scanning ? '正在识别…' : '开始扫描'}}<text wx:if="{{!scanning}}" class="scan-button-arrow">↗</text></button>
+  </view>
+  <view class="query-section">
+    <view class="section-heading"><text class="section-title">或通过编号查询</text></view>
+    <view class="query-row">
+      <input class="{{focused ? 'field-focus' : ''}}" value="{{deviceCode}}" bindinput="onCodeInput" bindfocus="onCodeFocus" bindblur="onCodeBlur"
+        bindconfirm="queryDevice" confirm-type="search" maxlength="80" placeholder="输入设备编号" placeholder-class="placeholder" />
+      <button class="query-button" bindtap="queryDevice" hover-class="button-active">查询</button>
+    </view>
+    <view wx:if="{{error}}" class="error home-error">{{error}}</view>
+  </view>
+  <view class="section-heading entry-heading"><text class="section-title">管理工作台</text><text class="section-meta">记录 · 维护 · 查看</text></view>
+  <view class="entry-grid">
+    <button class="entry-card" bindtap="openAdd" hover-class="button-active">
+      <view class="entry-icon">＋</view><text class="entry-title">添加设备</text><text class="entry-description">资料、位置与照片</text><text class="entry-arrow">↗</text>
+    </button>
+    <button class="entry-card" bindtap="openImages" hover-class="button-active">
+      <view class="entry-icon image-entry-icon">▧</view><text class="entry-title">设备相册</text><text class="entry-description">查看与补充设备照片</text><text class="entry-arrow">↗</text>
+    </button>
+  </view>
+  <button class="secondary directory-button" bindtap="openDevices" hover-class="button-active">查看全部设备 / 搜索档案 ›</button>
+  <view class="home-footer"><view class="footer-line"></view><text>设备有档案，管理有条理</text><view class="footer-line"></view></view>
+</view>

@@ -1,0 +1,37 @@
+<view class="page account-page">
+  <view class="header"><text class="kicker">DEVICE / WORKSPACE</text><text class="title">管理工作台</text><text class="subtitle">管理设备资料，从这里开始。</text></view>
+  <view wx:if="{{loading}}" class="card state-card"><view class="state-symbol">…</view><text class="state-title">正在读取账号信息</text></view>
+  <block wx:elif="{{user}}">
+    <view class="card user-card">
+      <view class="user-top">
+        <view class="avatar">{{user.role === 'admin' ? '管' : user.role === 'editor' ? '编' : '查'}}</view>
+        <view class="user-info"><text class="user-name">{{user.name}}</text><view class="user-meta"><text class="status">{{roleText}}</text><text class="id-label">编号 {{user.id}}</text></view></view>
+        <button class="copy-button" bindtap="copyUserId" hover-class="button-active">复制编号</button>
+      </view>
+      <text class="description">{{roleDescription}}</text>
+    </view>
+    <view class="section-heading"><text class="section-title">设备管理</text><text class="section-meta">工作入口</text></view>
+    <button class="workspace-entry" bindtap="goDeviceList" hover-class="button-active" disabled="{{loggingOut}}">
+      <view class="workspace-icon">▣</view><view class="workspace-text"><text class="workspace-title">设备档案</text><text class="workspace-hint">搜索设备，查看与编辑已有资料</text></view><text class="chevron">›</text>
+    </button>
+    <button wx:if="{{user.role === 'admin' || user.role === 'editor'}}" class="workspace-entry add-entry" bindtap="goAddDevice" hover-class="button-active" disabled="{{loggingOut}}">
+      <view class="workspace-icon">＋</view><view class="workspace-text"><text class="workspace-title">添加新设备</text><text class="workspace-hint">一次记录资料、定位和照片</text></view><text class="workspace-arrow">↗</text>
+    </button>
+    <button class="workspace-entry" bindtap="goDeviceImages" hover-class="button-active" disabled="{{loggingOut}}">
+      <view class="workspace-icon photo-icon">▧</view><view class="workspace-text"><text class="workspace-title">设备相册</text><text class="workspace-hint">按设备编号查看、补充照片</text></view><text class="chevron">›</text>
+    </button>
+    <view class="account-actions"><button class="text-button" bindtap="refreshUser" loading="{{loading}}" disabled="{{loggingOut}}" hover-class="button-active">刷新权限</button><text class="action-divider"></text><button class="text-button logout-button" bindtap="logout" loading="{{loggingOut}}" disabled="{{loggingOut}}" hover-class="button-active">退出登录</button></view>
+  </block>
+  <view wx:else class="card login-card">
+    <view class="login-symbol">↗</view><text class="login-title">登录，让设备管理更轻松</text>
+    <text class="description">使用微信登录，即可查看账号权限。管理员和编辑者可以创建档案、记录位置和上传照片。</text>
+    <button class="primary login-button" bindtap="login" loading="{{loggingIn}}" disabled="{{loggingIn}}" hover-class="button-active">{{loggingIn ? '正在登录…' : '微信一键登录'}}</button>
+    <text class="hint">新账号默认为查看者，可联系管理员开通维护权限。</text>
+  </view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view class="card permission-card"><text class="section-title">权限说明</text>
+    <view class="permission-line"><text class="permission-name">管理员</text><text>添加及编辑设备、维护位置与照片</text></view>
+    <view class="permission-line"><text class="permission-name">编辑者</text><text>添加及编辑设备、维护位置与照片</text></view>
+    <view class="permission-line"><text class="permission-name">查看者</text><text>扫码查询资料、查看设备照片</text></view>
+  </view>
+</view>

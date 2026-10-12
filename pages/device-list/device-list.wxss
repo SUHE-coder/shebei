@@ -1,0 +1,23 @@
+.list-header { display: flex; align-items: center; justify-content: space-between; }
+.list-header .small-button { margin-left: 20rpx; }
+.search-card { padding: 26rpx; }
+.filter-row { display: flex; align-items: center; justify-content: space-between; margin-top: 18rpx; }
+.filter-picker { padding: 12rpx 20rpx; border: 1rpx solid #e8ece5; border-radius: 14rpx; color: #335f4d; font-size: 25rpx; }
+.filter-picker text { margin-left: 18rpx; }
+.filter-hint { color: #78867d; font-size: 22rpx; }
+.reset-button { min-height: 60rpx; padding: 0; font-size: 23rpx; }
+.result-heading { margin: 32rpx 4rpx 20rpx; }
+.device-card { padding: 24rpx; }
+.device-row { display: flex; align-items: center; }
+.row-active { opacity: .7; }
+.device-cover { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 108rpx; height: 108rpx; margin-right: 20rpx; overflow: hidden; border-radius: 22rpx; background: #edf4ec; }
+.device-cover-symbol { color: #176b53; font-size: 46rpx; }
+.device-main { flex: 1; min-width: 0; }
+.device-name { display: block; font-size: 30rpx; line-height: 1.45; font-weight: 600; overflow-wrap: break-word; }
+.device-code { display: block; margin-top: 8rpx; color: #78867d; font-size: 23rpx; overflow-wrap: break-word; }
+.device-row .chevron { margin-left: 12rpx; }
+.device-location { display: flex; margin: 22rpx 0; color: #78867d; font-size: 24rpx; line-height: 1.6; overflow-wrap: break-word; }
+.location-symbol { margin-right: 12rpx; color: #176b53; }
+.device-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 18rpx; border-top: 1rpx solid #e8ece5; }
+.edit-button { min-height: 64rpx; padding: 0 8rpx 0 20rpx; color: #176b53; background: transparent; font-size: 25rpx; }
+.list-footer { display: block; text-align: center; color: #78867d; margin-top: 28rpx; font-size: 23rpx; }
